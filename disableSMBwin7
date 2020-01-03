@@ -1,0 +1,41 @@
+For Windows 7, Windows Server 2008 R2, Windows Vista, and Windows Server 2008
+To enable or disable SMB protocols on an SMB Server that is running Windows 7, Windows Server 2008 R2, Windows Vista, or Windows Server 2008, use Windows PowerShell or Registry Editor.
+
+PowerShell methods
+Note
+
+This method requires PowerShell 2.0 or later version of PowerShell.
+
+
+SMB v1 on SMB Server
+Detect:
+
+Get-Item HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters | ForEach-Object {Get-ItemProperty $_.pspath}
+Default configuration = Enabled (No registry key is created), so no SMB1 value will be returned
+
+Disable:
+
+Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" SMB1 -Type DWORD -Value 0 –Force
+Enable:
+
+Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" SMB1 -Type DWORD -Value 1 –Force
+
+Note You must restart the computer after you make these changes.
+
+For more information, see Server storage at Microsoft.
+
+SMB v2/v3 on SMB Server
+Detect:
+
+Get-ItemProperty HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters | ForEach-Object {Get-ItemProperty $_.pspath}
+
+Disable:
+
+Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" SMB2 -Type DWORD -Value 0 –Force
+
+Enable:
+
+Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" SMB2 -Type DWORD -Value 1 –Force
+
+Note You must restart the computer after you make these changes.
+
